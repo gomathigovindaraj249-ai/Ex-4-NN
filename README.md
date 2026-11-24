@@ -1,8 +1,8 @@
 
-<H3>ENTER YOUR NAME</H3>
-<H3>ENTER YOUR REGISTER NO.</H3>
+<H3>NAME : GOMATHI G</H3>
+<H3>REGISTER NO : 212225230079</H3>
 <H3>EX. NO.4</H3>
-<H3>DATE:</H3>
+<H3>DATE: 24.11.2026</H3>
 <H1 ALIGN =CENTER>Implementation of MLP with Backpropagation for Multiclassification</H1>
 <H3>Aim:</H3>
 To implement a Multilayer Perceptron for Multi classification
@@ -116,11 +116,69 @@ Normalize our dataset.
 
 <H3>Program:</H3> 
 
-Insert your code here
+```
+import pandas as pd
+import sklearn
+
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report, confusion_matrix
+
+# Load dataset
+data = pd.read_csv("C:/Users/acer/Downloads/wine_dataset.csv")
+
+# Separate input and output
+X = data.drop("Class", axis=1)
+y = data["Class"]
+
+# Convert categorical values into numerical values
+le = LabelEncoder()
+y = le.fit_transform(y)
+
+print(X.head())
+print(y[:5])
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42, stratify=y
+)
+
+# Feature scaling
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Create MLP classifier
+mlp = MLPClassifier(
+    hidden_layer_sizes=(10, 10, 10),
+    max_iter=1000,
+    random_state=42
+)
+
+# Train the model
+mlp.fit(X_train, y_train)
+
+# Make predictions
+predictions = mlp.predict(X_test)
+
+print(predictions)
+
+# Evaluate the model
+print(confusion_matrix(y_test, predictions))
+
+print(classification_report(
+    y_test,
+    predictions,
+    target_names=le.classes_
+))
+```
 
 <H3>Output:</H3>
 
-Show your results here
+![alt text](image.png)
+![alt text](image-1.png)
 
 <H3>Result:</H3>
 Thus, MLP is implemented for multi-classification using python.
